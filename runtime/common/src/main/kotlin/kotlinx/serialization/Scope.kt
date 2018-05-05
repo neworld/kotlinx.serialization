@@ -45,6 +45,9 @@ fun <T: Any> SerialContext?.klassSerializer(klass: KClass<T>) = this?.let { getS
 fun <T: Any> SerialContext?.valueSerializer(value: T) = this?.let { getSerializerByValue(value) } ?: value::class.serializer()
 
 class ContextSerializer <T : Any> (val serializableClass: KClass<T>) : KSerializer<T> {
+
+    constructor(serializableClass: KClass<T>, innerSerializer: KSerializer<*>) : this(serializableClass)
+
     override fun save(output: KOutput, obj: T) {
         output.writeValue(obj)
     }
